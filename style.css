@@ -1,0 +1,330 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #263238,
+            #0b0b0b 70%
+        );
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: white;
+
+    padding: 20px;
+}
+
+
+.game-wrapper {
+    width: 100%;
+    max-width: 500px;
+
+    text-align: center;
+}
+
+
+h1 {
+    margin-bottom: 20px;
+
+    font-size: 32px;
+
+    color: white;
+}
+
+
+/* =========================
+   GAME MENU
+========================= */
+
+.game-menu {
+    display: flex;
+
+    justify-content: center;
+    align-items: end;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+
+    background: #1b1b1b;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    border: 1px solid #333;
+
+    margin-bottom: 15px;
+}
+
+
+.setting {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 6px;
+}
+
+
+.setting label {
+    font-size: 13px;
+
+    color: #aaa;
+}
+
+
+input[type="color"] {
+    width: 55px;
+    height: 38px;
+
+    padding: 2px;
+
+    border: 2px solid #555;
+
+    border-radius: 6px;
+
+    background: #222;
+
+    cursor: pointer;
+}
+
+
+select {
+    height: 38px;
+
+    padding: 0 12px;
+
+    border: 1px solid #555;
+
+    border-radius: 6px;
+
+    background: #2b2b2b;
+
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+
+button {
+    height: 40px;
+
+    padding: 0 18px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #00c853;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s,
+        background 0.15s;
+}
+
+
+button:hover {
+    background: #00a844;
+
+    transform: translateY(-1px);
+}
+
+
+button:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================
+   SCORE
+========================= */
+
+.score-board {
+    display: flex;
+
+    justify-content: space-between;
+
+    background: #1b1b1b;
+
+    border: 1px solid #333;
+
+    border-radius: 8px;
+
+    padding: 12px 18px;
+
+    margin-bottom: 12px;
+
+    font-size: 17px;
+
+    font-weight: bold;
+}
+
+
+.score-board span {
+    color: #00e676;
+}
+
+
+/* =========================
+   CANVAS
+========================= */
+
+.canvas-container {
+    position: relative;
+
+    width: 400px;
+
+    max-width: 100%;
+
+    margin: auto;
+}
+
+
+#gameCanvas {
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    background: #333;
+
+    border: 4px solid #fff;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+.game-over-screen {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 18px;
+
+    background:
+        rgba(0, 0, 0, 0.78);
+
+    border-radius: 5px;
+}
+
+
+.game-over-screen h2 {
+    font-size: 42px;
+
+    color: #ff4444;
+
+    text-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.8);
+}
+
+
+.game-over-screen p {
+    font-size: 20px;
+}
+
+
+.game-over-screen strong {
+    color: #00e676;
+}
+
+
+.hidden {
+    display: none;
+}
+
+
+/* =========================
+   INSTRUCTIONS
+========================= */
+
+.instructions {
+    margin-top: 15px;
+
+    color: #aaa;
+
+    line-height: 1.6;
+
+    font-size: 14px;
+}
+
+
+.instructions strong {
+    color: white;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 10px;
+    }
+
+
+    h1 {
+        font-size: 26px;
+    }
+
+
+    .game-menu {
+        align-items: center;
+    }
+
+
+    .canvas-container {
+        width: 100%;
+    }
+
+
+    .score-board {
+        font-size: 15px;
+    }
+
+}

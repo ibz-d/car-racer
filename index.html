@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>2D Car Racer Game</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="game-wrapper">
+
+        <h1>🏎️ 2D Car Racer</h1>
+
+        <!-- Game Setup -->
+        <section class="game-menu">
+
+            <div class="setting">
+                <label for="carColor">Car Color</label>
+
+                <input
+                    type="color"
+                    id="carColor"
+                    value="#ff0000"
+                >
+            </div>
+
+
+            <div class="setting">
+                <label for="speedSelect">Game Speed</label>
+
+                <select id="speedSelect">
+
+                    <option value="4">
+                        Slow
+                    </option>
+
+                    <option value="6" selected>
+                        Normal
+                    </option>
+
+                    <option value="9">
+                        Fast
+                    </option>
+
+                    <option value="12">
+                        Extreme
+                    </option>
+
+                </select>
+            </div>
+
+
+            <button id="startButton">
+                Start Game
+            </button>
+
+        </section>
+
+
+        <!-- Score -->
+        <div class="score-board">
+
+            <div>
+                Score:
+                <span id="score">0</span>
+            </div>
+
+            <div>
+                Best:
+                <span id="highScore">0</span>
+            </div>
+
+        </div>
+
+
+        <!-- Game -->
+        <div class="canvas-container">
+
+            <canvas
+                id="gameCanvas"
+                width="400"
+                height="600"
+            ></canvas>
+
+
+            <!-- Game Over Overlay -->
+            <div
+                id="gameOverScreen"
+                class="game-over-screen hidden"
+            >
+
+                <h2>GAME OVER</h2>
+
+                <p>
+                    Your Score:
+                    <strong id="finalScore">0</strong>
+                </p>
+
+                <button id="restartButton">
+                    Play Again
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Controls -->
+        <div class="instructions">
+
+            <p>
+                <strong>Controls</strong>
+            </p>
+
+            <p>
+                ⬅️ ➡️ Arrow Keys &nbsp; or &nbsp;
+                <strong>A</strong> / <strong>D</strong>
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
