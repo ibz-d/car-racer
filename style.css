@@ -1,7 +1,19 @@
 * {
     box-sizing: border-box;
+
     margin: 0;
+
     padding: 0;
+}
+
+
+html,
+body {
+    width: 100%;
+
+    min-height: 100%;
+
+    overflow-x: hidden;
 }
 
 
@@ -9,7 +21,9 @@ body {
     min-height: 100vh;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     background:
@@ -27,11 +41,16 @@ body {
     color: white;
 
     padding: 20px;
+
+    /* Prevent accidental mobile scrolling
+       while touching the game */
+    touch-action: manipulation;
 }
 
 
 .game-wrapper {
     width: 100%;
+
     max-width: 500px;
 
     text-align: center;
@@ -47,14 +66,15 @@ h1 {
 }
 
 
-/* =========================
-   GAME MENU
-========================= */
+/* ========================================
+   GAME SETTINGS
+======================================== */
 
 .game-menu {
     display: flex;
 
     justify-content: center;
+
     align-items: end;
 
     flex-wrap: wrap;
@@ -93,6 +113,7 @@ h1 {
 
 input[type="color"] {
     width: 55px;
+
     height: 38px;
 
     padding: 2px;
@@ -148,6 +169,10 @@ button {
     transition:
         transform 0.15s,
         background 0.15s;
+
+    touch-action: manipulation;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 
@@ -163,9 +188,9 @@ button:active {
 }
 
 
-/* =========================
+/* ========================================
    SCORE
-========================= */
+======================================== */
 
 .score-board {
     display: flex;
@@ -193,9 +218,9 @@ button:active {
 }
 
 
-/* =========================
-   CANVAS
-========================= */
+/* ========================================
+   GAME CANVAS
+======================================== */
 
 .canvas-container {
     position: relative;
@@ -217,18 +242,25 @@ button:active {
 
     background: #333;
 
-    border: 4px solid #fff;
+    border: 4px solid white;
 
     border-radius: 8px;
 
     box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.5);
+        0 15px 40px
+        rgba(0, 0, 0, 0.5);
+
+    /*
+       Prevent the browser from interpreting
+       touches on the canvas as scrolling.
+    */
+    touch-action: none;
 }
 
 
-/* =========================
+/* ========================================
    GAME OVER
-========================= */
+======================================== */
 
 .game-over-screen {
     position: absolute;
@@ -258,7 +290,8 @@ button:active {
     color: #ff4444;
 
     text-shadow:
-        0 3px 10px rgba(0, 0, 0, 0.8);
+        0 3px 10px
+        rgba(0, 0, 0, 0.8);
 }
 
 
@@ -277,9 +310,78 @@ button:active {
 }
 
 
-/* =========================
+/* ========================================
+   MOBILE CONTROLS
+======================================== */
+
+.mobile-controls {
+    display: none;
+
+    width: 100%;
+
+    max-width: 400px;
+
+    margin: 15px auto 0;
+
+    gap: 15px;
+}
+
+
+.control-button {
+    flex: 1;
+
+    height: 65px;
+
+    border-radius: 12px;
+
+    background: #222;
+
+    border: 2px solid #555;
+
+    color: white;
+
+    font-size: 22px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    user-select: none;
+
+    -webkit-user-select: none;
+
+    touch-action: none;
+
+    transition:
+        background 0.1s,
+        transform 0.1s;
+}
+
+
+.control-button span {
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+.control-button:active,
+.control-button.active {
+    background: #00c853;
+
+    border-color: #00e676;
+
+    transform: scale(0.96);
+}
+
+
+/* ========================================
    INSTRUCTIONS
-========================= */
+======================================== */
 
 .instructions {
     margin-top: 15px;
@@ -297,34 +399,154 @@ button:active {
 }
 
 
-/* =========================
-   MOBILE
-========================= */
+.mobile-instructions {
+    display: none;
+}
 
-@media (max-width: 500px) {
+
+/* ========================================
+   TABLETS / PHONES
+======================================== */
+
+@media (max-width: 600px) {
 
     body {
-        padding: 10px;
+        align-items: flex-start;
+
+        padding:
+            10px
+            8px
+            20px;
+    }
+
+
+    .game-wrapper {
+        width: 100%;
     }
 
 
     h1 {
         font-size: 26px;
+
+        margin-bottom: 12px;
     }
 
 
     .game-menu {
-        align-items: center;
+        padding: 12px;
+
+        gap: 10px;
+
+        margin-bottom: 10px;
     }
 
 
-    .canvas-container {
-        width: 100%;
+    .setting label {
+        font-size: 12px;
+    }
+
+
+    input[type="color"] {
+        width: 48px;
+
+        height: 36px;
+    }
+
+
+    select {
+        height: 36px;
+
+        font-size: 14px;
+
+        padding: 0 8px;
+    }
+
+
+    .game-menu > button {
+        height: 36px;
+
+        padding: 0 13px;
+
+        font-size: 14px;
     }
 
 
     .score-board {
+        padding: 9px 13px;
+
         font-size: 15px;
+
+        margin-bottom: 8px;
+    }
+
+
+    .canvas-container {
+        width: min(
+            400px,
+            calc(100vw - 16px)
+        );
+    }
+
+
+    #gameCanvas {
+        border-width: 3px;
+    }
+
+
+    .mobile-controls {
+        display: flex;
+    }
+
+
+    .desktop-instructions {
+        display: none;
+    }
+
+
+    .mobile-instructions {
+        display: block;
+    }
+
+
+    .instructions {
+        margin-top: 10px;
+
+        font-size: 12px;
+    }
+
+
+    .game-over-screen h2 {
+        font-size: 34px;
+    }
+
+}
+
+
+/* ========================================
+   VERY SMALL PHONES
+======================================== */
+
+@media (max-width: 360px) {
+
+    h1 {
+        font-size: 23px;
+    }
+
+
+    .game-menu {
+        gap: 7px;
+    }
+
+
+    .control-button {
+        height: 58px;
+
+        font-size: 19px;
+    }
+
+
+    .control-button span {
+        font-size: 11px;
     }
 
 }

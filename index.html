@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>2D Car Racer Game</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>2D Car Racer</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,22 +20,33 @@
 
         <h1>🏎️ 2D Car Racer</h1>
 
-        <!-- Game Setup -->
+
+        <!-- =========================
+             GAME SETTINGS
+        ========================== -->
+
         <section class="game-menu">
 
             <div class="setting">
-                <label for="carColor">Car Color</label>
+
+                <label for="carColor">
+                    Car Color
+                </label>
 
                 <input
                     type="color"
                     id="carColor"
                     value="#ff0000"
                 >
+
             </div>
 
 
             <div class="setting">
-                <label for="speedSelect">Game Speed</label>
+
+                <label for="speedSelect">
+                    Game Speed
+                </label>
 
                 <select id="speedSelect">
 
@@ -51,6 +67,7 @@
                     </option>
 
                 </select>
+
             </div>
 
 
@@ -61,7 +78,10 @@
         </section>
 
 
-        <!-- Score -->
+        <!-- =========================
+             SCORE
+        ========================== -->
+
         <div class="score-board">
 
             <div>
@@ -77,7 +97,10 @@
         </div>
 
 
-        <!-- Game -->
+        <!-- =========================
+             GAME AREA
+        ========================== -->
+
         <div class="canvas-container">
 
             <canvas
@@ -87,7 +110,8 @@
             ></canvas>
 
 
-            <!-- Game Over Overlay -->
+            <!-- GAME OVER -->
+
             <div
                 id="gameOverScreen"
                 class="game-over-screen hidden"
@@ -97,7 +121,9 @@
 
                 <p>
                     Your Score:
-                    <strong id="finalScore">0</strong>
+                    <strong id="finalScore">
+                        0
+                    </strong>
                 </p>
 
                 <button id="restartButton">
@@ -109,16 +135,59 @@
         </div>
 
 
-        <!-- Controls -->
+        <!-- =========================
+             MOBILE CONTROLS
+        ========================== -->
+
+        <div class="mobile-controls">
+
+            <button
+                id="leftButton"
+                class="control-button"
+                aria-label="Move left"
+            >
+                ◀
+                <span>LEFT</span>
+            </button>
+
+
+            <button
+                id="rightButton"
+                class="control-button"
+                aria-label="Move right"
+            >
+                <span>RIGHT</span>
+                ▶
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             INSTRUCTIONS
+        ========================== -->
+
         <div class="instructions">
 
             <p>
                 <strong>Controls</strong>
             </p>
 
-            <p>
-                ⬅️ ➡️ Arrow Keys &nbsp; or &nbsp;
-                <strong>A</strong> / <strong>D</strong>
+            <p class="desktop-instructions">
+                💻 Use
+                <strong>←</strong>
+                <strong>→</strong>
+                or
+                <strong>A</strong>
+                <strong>D</strong>
+            </p>
+
+            <p class="mobile-instructions">
+                📱 Use the
+                <strong>LEFT</strong>
+                and
+                <strong>RIGHT</strong>
+                buttons
             </p>
 
         </div>
@@ -129,4 +198,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>

@@ -1,34 +1,15 @@
 "use strict";
 
-/*
-    ============================================
-    2D CAR RACING GAME
-    ============================================
-
-    Vanilla JavaScript
-    No libraries required.
-
-    Features:
-    - Choose car color
-    - Choose game speed
-    - Keyboard controls
-    - Enemy cars
-    - Collision detection
-    - Score
-    - High score
-    - Game over screen
-    - Restart
-    ============================================
-*/
-
 
 // ============================================
 // DOM ELEMENTS
 // ============================================
 
-const canvas = document.getElementById("gameCanvas");
+const canvas =
+    document.getElementById("gameCanvas");
 
-const ctx = canvas.getContext("2d");
+const ctx =
+    canvas.getContext("2d");
 
 const carColorInput =
     document.getElementById("carColor");
@@ -53,6 +34,12 @@ const gameOverScreen =
 
 const finalScoreElement =
     document.getElementById("finalScore");
+
+const leftButton =
+    document.getElementById("leftButton");
+
+const rightButton =
+    document.getElementById("rightButton");
 
 
 // ============================================
@@ -82,7 +69,11 @@ let gameSpeed = 6;
 let score = 0;
 
 let highScore =
-    Number(localStorage.getItem("carRacingHighScore")) || 0;
+    Number(
+        localStorage.getItem(
+            "carRacingHighScore"
+        )
+    ) || 0;
 
 let roadOffset = 0;
 
@@ -91,8 +82,12 @@ let enemySpawnTimer = 0;
 let animationId = null;
 
 
-// Display saved high score
-highScoreElement.textContent = highScore;
+// ============================================
+// DISPLAY HIGH SCORE
+// ============================================
+
+highScoreElement.textContent =
+    highScore;
 
 
 // ============================================
@@ -101,17 +96,21 @@ highScoreElement.textContent = highScore;
 
 const player = {
 
-    x: canvas.width / 2 - 22,
+    x:
+        canvas.width / 2 - 22,
 
-    y: canvas.height - 110,
+    y:
+        canvas.height - 110,
 
     width: 44,
 
     height: 78,
 
-    speed: PLAYER_SPEED,
+    speed:
+        PLAYER_SPEED,
 
-    color: "#ff0000"
+    color:
+        "#ff0000"
 
 };
 
@@ -124,7 +123,7 @@ let enemies = [];
 
 
 // ============================================
-// KEYBOARD
+// KEYBOARD INPUT
 // ============================================
 
 const keys = {
@@ -168,7 +167,8 @@ document.addEventListener(
         }
 
 
-        // Press Enter to restart
+        // Enter starts/restarts the game
+
         if (
             key === "enter" &&
             !gameRunning
@@ -214,6 +214,185 @@ document.addEventListener(
 
 
 // ============================================
+// TOUCH CONTROLS
+// ============================================
+
+function setControl(
+    direction,
+    active
+) {
+
+    if (direction === "left") {
+
+        keys.left = active;
+
+        leftButton.classList.toggle(
+            "active",
+            active
+        );
+
+    }
+
+
+    if (direction === "right") {
+
+        keys.right = active;
+
+        rightButton.classList.toggle(
+            "active",
+            active
+        );
+
+    }
+
+}
+
+
+// --------------------------------------------
+// LEFT BUTTON
+// --------------------------------------------
+
+leftButton.addEventListener(
+    "pointerdown",
+    function (event) {
+
+        event.preventDefault();
+
+        setControl(
+            "left",
+            true
+        );
+
+    }
+);
+
+
+leftButton.addEventListener(
+    "pointerup",
+    function (event) {
+
+        event.preventDefault();
+
+        setControl(
+            "left",
+            false
+        );
+
+    }
+);
+
+
+leftButton.addEventListener(
+    "pointercancel",
+    function () {
+
+        setControl(
+            "left",
+            false
+        );
+
+    }
+);
+
+
+leftButton.addEventListener(
+    "pointerleave",
+    function () {
+
+        setControl(
+            "left",
+            false
+        );
+
+    }
+);
+
+
+// --------------------------------------------
+// RIGHT BUTTON
+// --------------------------------------------
+
+rightButton.addEventListener(
+    "pointerdown",
+    function (event) {
+
+        event.preventDefault();
+
+        setControl(
+            "right",
+            true
+        );
+
+    }
+);
+
+
+rightButton.addEventListener(
+    "pointerup",
+    function (event) {
+
+        event.preventDefault();
+
+        setControl(
+            "right",
+            false
+        );
+
+    }
+);
+
+
+rightButton.addEventListener(
+    "pointercancel",
+    function () {
+
+        setControl(
+            "right",
+            false
+        );
+
+    }
+);
+
+
+rightButton.addEventListener(
+    "pointerleave",
+    function () {
+
+        setControl(
+            "right",
+            false
+        );
+
+    }
+);
+
+
+// ============================================
+// RELEASE TOUCH WHEN POINTER LEAVES WINDOW
+// ============================================
+
+window.addEventListener(
+    "blur",
+    function () {
+
+        keys.left = false;
+
+        keys.right = false;
+
+        leftButton.classList.remove(
+            "active"
+        );
+
+        rightButton.classList.remove(
+            "active"
+        );
+
+    }
+);
+
+
+// ============================================
 // START BUTTON
 // ============================================
 
@@ -235,15 +414,17 @@ restartButton.addEventListener(
 
 function startGame() {
 
-    // Stop previous animation
     if (animationId !== null) {
 
-        cancelAnimationFrame(animationId);
+        cancelAnimationFrame(
+            animationId
+        );
+
+        animationId = null;
 
     }
 
 
-    // Game state
     gameRunning = true;
 
     score = 0;
@@ -255,31 +436,60 @@ function startGame() {
     enemies = [];
 
 
-    // Get settings
+    // Get selected settings
+
     gameSpeed =
-        Number(speedSelect.value);
+        Number(
+            speedSelect.value
+        );
+
 
     player.color =
         carColorInput.value;
 
 
-    // Reset player
+    // Reset player position
+
     player.x =
         canvas.width / 2 -
         player.width / 2;
 
 
+    // Reset controls
+
+    keys.left = false;
+
+    keys.right = false;
+
+
+    leftButton.classList.remove(
+        "active"
+    );
+
+    rightButton.classList.remove(
+        "active"
+    );
+
+
     // Reset score
-    scoreElement.textContent = "0";
+
+    scoreElement.textContent =
+        "0";
 
 
-    // Hide game over
+    // Hide game over screen
+
     gameOverScreen.classList.add(
         "hidden"
     );
 
 
-    // Start animation
+    startButton.textContent =
+        "Restart Game";
+
+
+    // Start game loop
+
     gameLoop();
 
 }
@@ -304,7 +514,9 @@ function gameLoop() {
 
 
     animationId =
-        requestAnimationFrame(gameLoop);
+        requestAnimationFrame(
+            gameLoop
+        );
 
 }
 
@@ -334,14 +546,16 @@ function updatePlayer() {
 
     if (keys.left) {
 
-        player.x -= player.speed;
+        player.x -=
+            player.speed;
 
     }
 
 
     if (keys.right) {
 
-        player.x += player.speed;
+        player.x +=
+            player.speed;
 
     }
 
@@ -357,16 +571,24 @@ function updatePlayer() {
         7;
 
 
-    if (player.x < leftLimit) {
+    if (
+        player.x <
+        leftLimit
+    ) {
 
-        player.x = leftLimit;
+        player.x =
+            leftLimit;
 
     }
 
 
-    if (player.x > rightLimit) {
+    if (
+        player.x >
+        rightLimit
+    ) {
 
-        player.x = rightLimit;
+        player.x =
+            rightLimit;
 
     }
 
@@ -379,7 +601,8 @@ function updatePlayer() {
 
 function updateRoad() {
 
-    roadOffset += gameSpeed;
+    roadOffset +=
+        gameSpeed;
 
 
     const patternSize =
@@ -387,9 +610,13 @@ function updateRoad() {
         ROAD_MARKING_GAP;
 
 
-    if (roadOffset >= patternSize) {
+    if (
+        roadOffset >=
+        patternSize
+    ) {
 
-        roadOffset -= patternSize;
+        roadOffset -=
+            patternSize;
 
     }
 
@@ -419,34 +646,30 @@ function createEnemy() {
     ];
 
 
-    const laneWidth = 80;
+    const roadWidth =
+        ROAD_RIGHT -
+        ROAD_LEFT;
 
 
-    const lanes = [
-
-        ROAD_LEFT + 12,
-
-        ROAD_LEFT + laneWidth + 12,
-
-        ROAD_LEFT + laneWidth * 2 + 12,
-
-        ROAD_LEFT + laneWidth * 3 + 12
-
-    ];
+    const laneWidth =
+        roadWidth / 3;
 
 
     const lane =
-        lanes[
-            Math.floor(
-                Math.random() *
-                lanes.length
-            )
-        ];
+        Math.floor(
+            Math.random() * 3
+        );
+
+
+    const x =
+        ROAD_LEFT +
+        lane * laneWidth +
+        (laneWidth - 44) / 2;
 
 
     const enemy = {
 
-        x: lane,
+        x: x,
 
         y: -100,
 
@@ -455,8 +678,7 @@ function createEnemy() {
         height: 78,
 
         speed:
-            gameSpeed *
-            0.65 +
+            gameSpeed * 0.65 +
             Math.random() * 2.5,
 
         color:
@@ -484,11 +706,6 @@ function updateEnemies() {
     enemySpawnTimer++;
 
 
-    /*
-        Higher speed = enemies appear
-        slightly more frequently.
-    */
-
     const spawnRate =
         Math.max(
             38,
@@ -497,7 +714,8 @@ function updateEnemies() {
 
 
     if (
-        enemySpawnTimer >= spawnRate
+        enemySpawnTimer >=
+        spawnRate
     ) {
 
         createEnemy();
@@ -507,32 +725,35 @@ function updateEnemies() {
     }
 
 
-    // Move enemies
-
     for (
         let i = enemies.length - 1;
         i >= 0;
         i--
     ) {
 
-        const enemy = enemies[i];
+        const enemy =
+            enemies[i];
 
 
-        enemy.y += enemy.speed;
+        enemy.y +=
+            enemy.speed;
 
 
-        // Enemy has left screen
+        // Enemy passed player
 
         if (
             enemy.y >
             canvas.height + 100
         ) {
 
-            enemies.splice(i, 1);
+            enemies.splice(
+                i,
+                1
+            );
 
 
-            // Increase score
             score++;
+
 
             scoreElement.textContent =
                 score;
@@ -540,12 +761,17 @@ function updateEnemies() {
 
             // Update high score
 
-            if (score > highScore) {
+            if (
+                score > highScore
+            ) {
 
-                highScore = score;
+                highScore =
+                    score;
+
 
                 highScoreElement.textContent =
                     highScore;
+
 
                 localStorage.setItem(
                     "carRacingHighScore",
@@ -562,7 +788,7 @@ function updateEnemies() {
 
 
 // ============================================
-// COLLISION DETECTION
+// COLLISION
 // ============================================
 
 function checkCollision(
@@ -570,31 +796,38 @@ function checkCollision(
     b
 ) {
 
-    // Small padding makes collision
-    // feel more natural.
-
     const padding = 6;
 
 
     return (
 
         a.x + padding <
-        b.x + b.width - padding
+        b.x +
+        b.width -
+        padding
 
         &&
 
-        a.x + a.width - padding >
-        b.x + padding
+        a.x +
+        a.width -
+        padding >
+        b.x +
+        padding
 
         &&
 
         a.y + padding <
-        b.y + b.height - padding
+        b.y +
+        b.height -
+        padding
 
         &&
 
-        a.y + a.height - padding >
-        b.y + padding
+        a.y +
+        a.height -
+        padding >
+        b.y +
+        padding
 
     );
 
@@ -602,12 +835,14 @@ function checkCollision(
 
 
 // ============================================
-// CHECK ALL COLLISIONS
+// CHECK COLLISIONS
 // ============================================
 
 function checkCollisions() {
 
-    for (const enemy of enemies) {
+    for (
+        const enemy of enemies
+    ) {
 
         if (
             checkCollision(
@@ -636,7 +871,9 @@ function gameOver() {
     gameRunning = false;
 
 
-    if (animationId !== null) {
+    if (
+        animationId !== null
+    ) {
 
         cancelAnimationFrame(
             animationId
@@ -647,6 +884,20 @@ function gameOver() {
     }
 
 
+    keys.left = false;
+
+    keys.right = false;
+
+
+    leftButton.classList.remove(
+        "active"
+    );
+
+    rightButton.classList.remove(
+        "active"
+    );
+
+
     finalScoreElement.textContent =
         score;
 
@@ -655,20 +906,14 @@ function gameOver() {
         "hidden"
     );
 
-
-    startButton.textContent =
-        "Start Game";
-
 }
 
 
 // ============================================
-// DRAW GAME
+// DRAW EVERYTHING
 // ============================================
 
 function draw() {
-
-    // Clear canvas
 
     ctx.clearRect(
         0,
@@ -697,7 +942,8 @@ function draw() {
 
 function drawGrass() {
 
-    ctx.fillStyle = "#238b23";
+    ctx.fillStyle =
+        "#238b23";
 
     ctx.fillRect(
         0,
@@ -707,9 +953,10 @@ function drawGrass() {
     );
 
 
-    // Small grass details
+    // Grass details
 
-    ctx.fillStyle = "#1b741b";
+    ctx.fillStyle =
+        "#1b741b";
 
 
     for (
@@ -724,6 +971,7 @@ function drawGrass() {
             4,
             10
         );
+
 
         ctx.fillRect(
             canvas.width - 20,
@@ -743,21 +991,23 @@ function drawGrass() {
 
 function drawRoad() {
 
-    // Road
+    ctx.fillStyle =
+        "#3c3c3c";
 
-    ctx.fillStyle = "#3c3c3c";
 
     ctx.fillRect(
         ROAD_LEFT,
         0,
-        ROAD_RIGHT - ROAD_LEFT,
+        ROAD_RIGHT -
+        ROAD_LEFT,
         canvas.height
     );
 
 
-    // Road edge
+    // White road edges
 
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle =
+        "#ffffff";
 
 
     ctx.fillRect(
@@ -776,17 +1026,27 @@ function drawRoad() {
     );
 
 
-    // Road edge red/white stripes
+    // Red / white road stripes
 
-    const stripeHeight = 20;
+    const stripeHeight =
+        20;
+
 
     for (
-        let y = -stripeHeight + roadOffset;
-        y < canvas.height;
-        y += stripeHeight * 2
+        let y =
+            -stripeHeight +
+            roadOffset;
+
+        y <
+            canvas.height;
+
+        y +=
+            stripeHeight * 2
     ) {
 
-        ctx.fillStyle = "#e53935";
+        ctx.fillStyle =
+            "#e53935";
+
 
         ctx.fillRect(
             ROAD_LEFT - 5,
@@ -814,43 +1074,53 @@ function drawRoad() {
 
 function drawRoadMarkings() {
 
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle =
+        "#ffffff";
 
 
-    const markingWidth = 5;
+    const markingWidth =
+        5;
+
 
     const markingHeight =
         ROAD_MARKING_HEIGHT;
 
 
-    const gap =
+    const pattern =
+        markingHeight +
         ROAD_MARKING_GAP;
 
 
-    const pattern =
-        markingHeight + gap;
+    const roadWidth =
+        ROAD_RIGHT -
+        ROAD_LEFT;
 
-
-    // Two lane separators
 
     const lane1 =
         ROAD_LEFT +
-        (ROAD_RIGHT - ROAD_LEFT) / 3;
+        roadWidth / 3;
 
 
     const lane2 =
         ROAD_LEFT +
-        (ROAD_RIGHT - ROAD_LEFT) * 2 / 3;
+        roadWidth * 2 / 3;
 
 
     for (
-        let y = -pattern + roadOffset;
-        y < canvas.height;
-        y += pattern
+        let y =
+            -pattern +
+            roadOffset;
+
+        y <
+            canvas.height;
+
+        y +=
+            pattern
     ) {
 
         ctx.fillRect(
-            lane1 - markingWidth / 2,
+            lane1 -
+            markingWidth / 2,
             y,
             markingWidth,
             markingHeight
@@ -858,7 +1128,8 @@ function drawRoadMarkings() {
 
 
         ctx.fillRect(
-            lane2 - markingWidth / 2,
+            lane2 -
+            markingWidth / 2,
             y,
             markingWidth,
             markingHeight
@@ -875,7 +1146,10 @@ function drawRoadMarkings() {
 
 function drawPlayer() {
 
-    drawCar(player, true);
+    drawCar(
+        player,
+        true
+    );
 
 }
 
@@ -886,9 +1160,14 @@ function drawPlayer() {
 
 function drawEnemies() {
 
-    for (const enemy of enemies) {
+    for (
+        const enemy of enemies
+    ) {
 
-        drawCar(enemy, false);
+        drawCar(
+            enemy,
+            false
+        );
 
     }
 
@@ -907,12 +1186,11 @@ function drawCar(
     ctx.save();
 
 
-    // ----------------------------------------
     // Shadow
-    // ----------------------------------------
 
     ctx.fillStyle =
-        "rgba(0, 0, 0, 0.35)";
+        "rgba(0,0,0,0.35)";
+
 
     ctx.fillRect(
         car.x + 4,
@@ -922,12 +1200,11 @@ function drawCar(
     );
 
 
-    // ----------------------------------------
-    // Main car body
-    // ----------------------------------------
+    // Main body
 
     ctx.fillStyle =
         car.color;
+
 
     roundRect(
         ctx,
@@ -938,15 +1215,15 @@ function drawCar(
         8
     );
 
+
     ctx.fill();
 
 
-    // ----------------------------------------
-    // Car highlight
-    // ----------------------------------------
+    // Highlight
 
     ctx.fillStyle =
         "rgba(255,255,255,0.2)";
+
 
     ctx.fillRect(
         car.x + 5,
@@ -956,12 +1233,11 @@ function drawCar(
     );
 
 
-    // ----------------------------------------
     // Roof
-    // ----------------------------------------
 
     ctx.fillStyle =
         "#222";
+
 
     roundRect(
         ctx,
@@ -972,15 +1248,15 @@ function drawCar(
         7
     );
 
+
     ctx.fill();
 
 
-    // ----------------------------------------
-    // Front windshield
-    // ----------------------------------------
+    // Windshield
 
     ctx.fillStyle =
         "#8ed8ff";
+
 
     roundRect(
         ctx,
@@ -991,15 +1267,15 @@ function drawCar(
         3
     );
 
+
     ctx.fill();
 
 
-    // ----------------------------------------
     // Rear windshield
-    // ----------------------------------------
 
     ctx.fillStyle =
         "#5db5df";
+
 
     roundRect(
         ctx,
@@ -1010,18 +1286,16 @@ function drawCar(
         3
     );
 
+
     ctx.fill();
 
 
-    // ----------------------------------------
     // Wheels
-    // ----------------------------------------
 
     ctx.fillStyle =
         "#111";
 
 
-    // Left front
     ctx.fillRect(
         car.x - 4,
         car.y + 12,
@@ -1030,7 +1304,6 @@ function drawCar(
     );
 
 
-    // Right front
     ctx.fillRect(
         car.x + car.width - 3,
         car.y + 12,
@@ -1039,7 +1312,6 @@ function drawCar(
     );
 
 
-    // Left rear
     ctx.fillRect(
         car.x - 4,
         car.y + 50,
@@ -1048,7 +1320,6 @@ function drawCar(
     );
 
 
-    // Right rear
     ctx.fillRect(
         car.x + car.width - 3,
         car.y + 50,
@@ -1057,15 +1328,13 @@ function drawCar(
     );
 
 
-    // ----------------------------------------
-    // Headlights / taillights
-    // ----------------------------------------
+    // Lights
 
     if (isPlayer) {
 
-        // Player headlights
+        ctx.fillStyle =
+            "#fff59d";
 
-        ctx.fillStyle = "#fff59d";
 
         ctx.fillRect(
             car.x + 7,
@@ -1073,6 +1342,7 @@ function drawCar(
             10,
             5
         );
+
 
         ctx.fillRect(
             car.x + car.width - 17,
@@ -1083,9 +1353,9 @@ function drawCar(
 
     } else {
 
-        // Enemy lights
+        ctx.fillStyle =
+            "#ff3333";
 
-        ctx.fillStyle = "#ff3333";
 
         ctx.fillRect(
             car.x + 7,
@@ -1093,6 +1363,7 @@ function drawCar(
             10,
             5
         );
+
 
         ctx.fillRect(
             car.x + car.width - 17,
@@ -1110,7 +1381,7 @@ function drawCar(
 
 
 // ============================================
-// ROUND RECTANGLE HELPER
+// ROUNDED RECTANGLE
 // ============================================
 
 function roundRect(
@@ -1124,15 +1395,18 @@ function roundRect(
 
     context.beginPath();
 
+
     context.moveTo(
         x + radius,
         y
     );
 
+
     context.lineTo(
         x + width - radius,
         y
     );
+
 
     context.quadraticCurveTo(
         x + width,
@@ -1141,10 +1415,12 @@ function roundRect(
         y + radius
     );
 
+
     context.lineTo(
         x + width,
         y + height - radius
     );
+
 
     context.quadraticCurveTo(
         x + width,
@@ -1153,10 +1429,12 @@ function roundRect(
         y + height
     );
 
+
     context.lineTo(
         x + radius,
         y + height
     );
+
 
     context.quadraticCurveTo(
         x,
@@ -1165,10 +1443,12 @@ function roundRect(
         y + height - radius
     );
 
+
     context.lineTo(
         x,
         y + radius
     );
+
 
     context.quadraticCurveTo(
         x,
@@ -1176,6 +1456,7 @@ function roundRect(
         x + radius,
         y
     );
+
 
     context.closePath();
 
@@ -1183,7 +1464,7 @@ function roundRect(
 
 
 // ============================================
-// INITIAL DRAW
+// INITIAL SCREEN
 // ============================================
 
 drawGrass();
