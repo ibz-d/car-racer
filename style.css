@@ -1,29 +1,22 @@
 * {
     box-sizing: border-box;
-
     margin: 0;
-
     padding: 0;
 }
-
 
 html,
 body {
     width: 100%;
-
-    min-height: 100%;
-
-    overflow-x: hidden;
+    height: 100%;
+    overflow: hidden;
 }
-
 
 body {
     min-height: 100vh;
+    min-height: 100dvh;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
 
     background:
@@ -40,56 +33,75 @@ body {
 
     color: white;
 
-    padding: 20px;
+    padding: 10px;
 
-    /* Prevent accidental mobile scrolling
-       while touching the game */
     touch-action: manipulation;
 }
 
 
+/* ========================================
+   MAIN GAME
+======================================== */
+
 .game-wrapper {
     width: 100%;
-
     max-width: 500px;
 
-    text-align: center;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: hidden;
 }
 
 
-h1 {
-    margin-bottom: 20px;
+/* ========================================
+   TITLE
+======================================== */
 
-    font-size: 32px;
+h1 {
+    flex-shrink: 0;
+
+    margin: 4px 0 8px;
+
+    font-size: 30px;
+
+    line-height: 1.1;
 
     color: white;
 }
 
 
 /* ========================================
-   GAME SETTINGS
+   SETTINGS
 ======================================== */
 
 .game-menu {
+    flex-shrink: 0;
+
+    width: 100%;
+
     display: flex;
 
     justify-content: center;
 
-    align-items: end;
+    align-items: center;
 
     flex-wrap: wrap;
 
-    gap: 15px;
+    gap: 10px;
 
     background: #1b1b1b;
 
-    padding: 18px;
+    padding: 10px;
 
-    border-radius: 12px;
+    border-radius: 10px;
 
     border: 1px solid #333;
 
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 
 
@@ -100,27 +112,27 @@ h1 {
 
     align-items: flex-start;
 
-    gap: 6px;
+    gap: 3px;
 }
 
 
 .setting label {
-    font-size: 13px;
+    font-size: 11px;
 
     color: #aaa;
 }
 
 
 input[type="color"] {
-    width: 55px;
+    width: 48px;
 
-    height: 38px;
+    height: 32px;
 
-    padding: 2px;
+    padding: 1px;
 
     border: 2px solid #555;
 
-    border-radius: 6px;
+    border-radius: 5px;
 
     background: #222;
 
@@ -129,46 +141,42 @@ input[type="color"] {
 
 
 select {
-    height: 38px;
+    height: 32px;
 
-    padding: 0 12px;
+    padding: 0 8px;
 
     border: 1px solid #555;
 
-    border-radius: 6px;
+    border-radius: 5px;
 
     background: #2b2b2b;
 
     color: white;
 
-    font-size: 15px;
+    font-size: 13px;
 
     cursor: pointer;
 }
 
 
 button {
-    height: 40px;
+    height: 34px;
 
-    padding: 0 18px;
+    padding: 0 14px;
 
     border: none;
 
-    border-radius: 7px;
+    border-radius: 6px;
 
     background: #00c853;
 
     color: white;
 
-    font-size: 15px;
+    font-size: 13px;
 
     font-weight: bold;
 
     cursor: pointer;
-
-    transition:
-        transform 0.15s,
-        background 0.15s;
 
     touch-action: manipulation;
 
@@ -176,15 +184,8 @@ button {
 }
 
 
-button:hover {
-    background: #00a844;
-
-    transform: translateY(-1px);
-}
-
-
 button:active {
-    transform: translateY(1px);
+    transform: scale(0.97);
 }
 
 
@@ -193,6 +194,10 @@ button:active {
 ======================================== */
 
 .score-board {
+    flex-shrink: 0;
+
+    width: 100%;
+
     display: flex;
 
     justify-content: space-between;
@@ -201,13 +206,13 @@ button:active {
 
     border: 1px solid #333;
 
-    border-radius: 8px;
+    border-radius: 7px;
 
-    padding: 12px 18px;
+    padding: 7px 12px;
 
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 
-    font-size: 17px;
+    font-size: 14px;
 
     font-weight: bold;
 }
@@ -219,41 +224,64 @@ button:active {
 
 
 /* ========================================
-   GAME CANVAS
+   GAME CANVAS CONTAINER
 ======================================== */
 
 .canvas-container {
     position: relative;
 
-    width: 400px;
+    /*
+       IMPORTANT:
+       The game gets the largest possible
+       amount of vertical space.
+    */
 
-    max-width: 100%;
+    flex: 1;
 
-    margin: auto;
+    min-height: 0;
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
 }
 
+
+/* ========================================
+   CANVAS
+======================================== */
 
 #gameCanvas {
     display: block;
 
-    width: 100%;
+    /*
+       Never make the canvas larger than
+       the available screen.
+    */
 
-    height: auto;
+    width: auto;
+
+    height: 100%;
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+    aspect-ratio: 400 / 600;
 
     background: #333;
 
-    border: 4px solid white;
+    border: 3px solid white;
 
-    border-radius: 8px;
+    border-radius: 7px;
 
     box-shadow:
-        0 15px 40px
+        0 10px 30px
         rgba(0, 0, 0, 0.5);
 
-    /*
-       Prevent the browser from interpreting
-       touches on the canvas as scrolling.
-    */
     touch-action: none;
 }
 
@@ -265,7 +293,21 @@ button:active {
 .game-over-screen {
     position: absolute;
 
-    inset: 0;
+    /*
+       Match the canvas area.
+    */
+
+    top: 0;
+    bottom: 0;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: min(
+        100%,
+        calc(100vh * 400 / 600)
+    );
 
     display: flex;
 
@@ -275,7 +317,7 @@ button:active {
 
     align-items: center;
 
-    gap: 18px;
+    gap: 12px;
 
     background:
         rgba(0, 0, 0, 0.78);
@@ -285,18 +327,14 @@ button:active {
 
 
 .game-over-screen h2 {
-    font-size: 42px;
+    font-size: 36px;
 
     color: #ff4444;
-
-    text-shadow:
-        0 3px 10px
-        rgba(0, 0, 0, 0.8);
 }
 
 
 .game-over-screen p {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 
@@ -315,24 +353,26 @@ button:active {
 ======================================== */
 
 .mobile-controls {
-    display: none;
+    flex-shrink: 0;
+
+    display: flex;
 
     width: 100%;
 
     max-width: 400px;
 
-    margin: 15px auto 0;
+    margin: 6px auto 0;
 
-    gap: 15px;
+    gap: 10px;
 }
 
 
 .control-button {
     flex: 1;
 
-    height: 65px;
+    height: 48px;
 
-    border-radius: 12px;
+    border-radius: 9px;
 
     background: #222;
 
@@ -340,7 +380,7 @@ button:active {
 
     color: white;
 
-    font-size: 22px;
+    font-size: 19px;
 
     display: flex;
 
@@ -348,7 +388,7 @@ button:active {
 
     align-items: center;
 
-    gap: 10px;
+    gap: 7px;
 
     user-select: none;
 
@@ -356,14 +396,12 @@ button:active {
 
     touch-action: none;
 
-    transition:
-        background 0.1s,
-        transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 
 .control-button span {
-    font-size: 13px;
+    font-size: 11px;
 
     font-weight: bold;
 }
@@ -375,7 +413,7 @@ button:active {
 
     border-color: #00e676;
 
-    transform: scale(0.96);
+    transform: scale(0.97);
 }
 
 
@@ -384,13 +422,22 @@ button:active {
 ======================================== */
 
 .instructions {
-    margin-top: 15px;
+    flex-shrink: 0;
 
-    color: #aaa;
+    margin-top: 4px;
 
-    line-height: 1.6;
+    margin-bottom: 2px;
 
-    font-size: 14px;
+    color: #999;
+
+    line-height: 1.2;
+
+    font-size: 10px;
+}
+
+
+.instructions p:first-child {
+    display: none;
 }
 
 
@@ -399,154 +446,384 @@ button:active {
 }
 
 
-.mobile-instructions {
+.desktop-instructions {
     display: none;
 }
 
 
+.mobile-instructions {
+    display: block;
+}
+
+
 /* ========================================
-   TABLETS / PHONES
+   PHONE SCREEN
 ======================================== */
 
 @media (max-width: 600px) {
 
     body {
-        align-items: flex-start;
+        padding: 5px;
 
-        padding:
-            10px
-            8px
-            20px;
+        /*
+           Use the actual dynamic viewport
+           height on modern phones.
+        */
+        height: 100dvh;
+
+        min-height: 100dvh;
     }
 
 
     .game-wrapper {
-        width: 100%;
+        height: 100dvh;
+
+        max-width: 100%;
+
+        justify-content: flex-start;
     }
 
 
     h1 {
-        font-size: 26px;
+        font-size: 23px;
 
-        margin-bottom: 12px;
+        margin:
+            2px
+            0
+            5px;
     }
 
 
     .game-menu {
-        padding: 12px;
+        padding: 6px;
 
-        gap: 10px;
+        gap: 7px;
 
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
 
     .setting label {
-        font-size: 12px;
+        font-size: 9px;
     }
 
 
     input[type="color"] {
-        width: 48px;
+        width: 42px;
 
-        height: 36px;
+        height: 28px;
     }
 
 
     select {
-        height: 36px;
+        height: 28px;
 
-        font-size: 14px;
+        font-size: 12px;
 
-        padding: 0 8px;
+        padding: 0 5px;
     }
 
 
     .game-menu > button {
-        height: 36px;
+        height: 30px;
 
-        padding: 0 13px;
-
-        font-size: 14px;
-    }
-
-
-    .score-board {
-        padding: 9px 13px;
-
-        font-size: 15px;
-
-        margin-bottom: 8px;
-    }
-
-
-    .canvas-container {
-        width: min(
-            400px,
-            calc(100vw - 16px)
-        );
-    }
-
-
-    #gameCanvas {
-        border-width: 3px;
-    }
-
-
-    .mobile-controls {
-        display: flex;
-    }
-
-
-    .desktop-instructions {
-        display: none;
-    }
-
-
-    .mobile-instructions {
-        display: block;
-    }
-
-
-    .instructions {
-        margin-top: 10px;
+        padding: 0 10px;
 
         font-size: 12px;
     }
 
 
-    .game-over-screen h2 {
-        font-size: 34px;
+    .score-board {
+        padding: 5px 9px;
+
+        font-size: 12px;
+
+        margin-bottom: 4px;
+    }
+
+
+    /*
+       The canvas area expands to use
+       whatever vertical space remains.
+    */
+
+    .canvas-container {
+        flex: 1;
+
+        min-height: 0;
+
+        width: 100%;
+    }
+
+
+    #gameCanvas {
+        height: 100%;
+
+        width: auto;
+
+        max-width: 100%;
+
+        max-height: 100%;
+    }
+
+
+    .mobile-controls {
+        height: 44px;
+
+        margin-top: 4px;
+
+        gap: 7px;
+    }
+
+
+    .control-button {
+        height: 44px;
+
+        font-size: 17px;
+
+        border-radius: 8px;
+    }
+
+
+    .control-button span {
+        font-size: 9px;
+    }
+
+
+    .instructions {
+        margin-top: 2px;
+
+        margin-bottom: 0;
+
+        font-size: 9px;
+
+        line-height: 1;
     }
 
 }
 
 
 /* ========================================
-   VERY SMALL PHONES
+   VERY SHORT PHONE SCREENS
 ======================================== */
 
-@media (max-width: 360px) {
+@media (
+    max-width: 600px
+) and (
+    max-height: 700px
+) {
 
     h1 {
-        font-size: 23px;
+        font-size: 19px;
+
+        margin-top: 1px;
+
+        margin-bottom: 3px;
     }
 
 
     .game-menu {
-        gap: 7px;
+        padding: 4px;
+
+        gap: 5px;
+    }
+
+
+    input[type="color"] {
+        height: 25px;
+
+        width: 38px;
+    }
+
+
+    select {
+        height: 25px;
+
+        font-size: 11px;
+    }
+
+
+    .game-menu > button {
+        height: 27px;
+
+        font-size: 11px;
+    }
+
+
+    .score-board {
+        padding: 4px 8px;
+
+        font-size: 11px;
+
+        margin-bottom: 3px;
+    }
+
+
+    .mobile-controls {
+        height: 38px;
+
+        margin-top: 3px;
     }
 
 
     .control-button {
-        height: 58px;
+        height: 38px;
 
-        font-size: 19px;
+        font-size: 15px;
+    }
+
+
+    .instructions {
+        display: none;
+    }
+
+}
+
+
+/* ========================================
+   EXTREMELY SHORT PHONES
+======================================== */
+
+@media (
+    max-width: 600px
+) and (
+    max-height: 600px
+) {
+
+    h1 {
+        font-size: 17px;
+
+        margin: 0 0 2px;
+    }
+
+
+    .game-menu {
+        padding: 3px;
+
+        gap: 4px;
+    }
+
+
+    .setting label {
+        display: none;
+    }
+
+
+    input[type="color"] {
+        height: 23px;
+
+        width: 34px;
+    }
+
+
+    select {
+        height: 23px;
+
+        font-size: 10px;
+    }
+
+
+    .game-menu > button {
+        height: 24px;
+
+        font-size: 10px;
+
+        padding: 0 8px;
+    }
+
+
+    .score-board {
+        padding: 3px 7px;
+
+        font-size: 10px;
+
+        margin-bottom: 2px;
+    }
+
+
+    .mobile-controls {
+        height: 34px;
+
+        margin-top: 2px;
+    }
+
+
+    .control-button {
+        height: 34px;
+
+        font-size: 13px;
     }
 
 
     .control-button span {
-        font-size: 11px;
+        font-size: 8px;
+    }
+
+}
+
+
+/* ========================================
+   LANDSCAPE PHONE
+======================================== */
+
+@media (
+    max-width: 900px
+) and (
+    orientation: landscape
+) {
+
+    body {
+        padding: 3px;
+    }
+
+
+    .game-wrapper {
+        height: 100dvh;
+
+        max-width: 900px;
+    }
+
+
+    h1 {
+        display: none;
+    }
+
+
+    .game-menu {
+        margin-bottom: 3px;
+
+        padding: 3px;
+    }
+
+
+    .score-board {
+        padding: 3px 8px;
+
+        margin-bottom: 3px;
+    }
+
+
+    .canvas-container {
+        flex: 1;
+
+        min-height: 0;
+    }
+
+
+    .mobile-controls {
+        margin-top: 3px;
+
+        height: 38px;
+    }
+
+
+    .control-button {
+        height: 38px;
+    }
+
+
+    .instructions {
+        display: none;
     }
 
 }

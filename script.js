@@ -64,7 +64,7 @@ const ROAD_MARKING_GAP = 35;
 
 let gameRunning = false;
 
-let gameSpeed = 6;
+let gameSpeed = 1;
 
 let score = 0;
 
